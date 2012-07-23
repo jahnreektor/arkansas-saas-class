@@ -1,5 +1,5 @@
 def palindrome? (word)
-  word.downcase.gsub(/\W/, ""). == word.downcase.gsub(/\W/, "").reverse
+  word.downcase.gsub(/\W/, "") == word.downcase.gsub(/\W/, "").reverse
 end
 
 # word.downcase returns a copy of word that is all lower case
