@@ -1,9 +1,7 @@
 class Dessert
+  attr_accessor :name, :calories
   def initialize(name, calories)
     @name,@calories = name, calories
-  end
-  def calories
-    @calories
   end
   def healthy?
     calories<200
@@ -32,7 +30,10 @@ class JellyBean < Dessert
   end
 end
 # Test code
-# a = Dessert.new("yum", 100)
+a = Dessert.new("yum", 100)
+p a
+a.calories= 200
+p a
 # p a.healthy?
 # a = JellyBean.new("yum", 100, "black licorice")
 # p a.delicious?
