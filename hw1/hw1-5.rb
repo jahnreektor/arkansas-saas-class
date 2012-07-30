@@ -4,12 +4,12 @@ class Class
     attr_reader attr_name
     attr_reader attr_name+"_history"
     class_eval %Q{
-         def #{attr_name}=(new_value)
-           @#{attr_name}_history ||= [nil]
-           @#{attr_name}_history << new_value
-           @#{attr_name} = new_value
-         end
-       }
+      def #{attr_name}=(new_value)
+        @#{attr_name}_history ||= [nil]
+        @#{attr_name}_history << new_value
+        @#{attr_name} = new_value
+      end
+    }
   end
 end
 # The or-equals ( ||= ) was key to me getting this problem. Honestly, I had to look this up.
@@ -17,11 +17,34 @@ end
 class Foo
   attr_accessor_with_history :bar
 end
-f = Foo.new
-f.bar=1
-f.bar = 1
-f.bar = 2
-print f.bar_history.inspect
+
+class String
+  def palindrome? 
+  end
+end
+
+module Enumerable
+  def palindrome?
+    copy = self.inject(""){  |result, item|  result += item.to_s()}
+    copy.downcase.gsub(/\W/, "") == copy.downcase.gsub(/\W/, "").reverse
+  end
+end
+
+class Numeric
+  @@currencies = {'yen' => 0.013, 'euro' => 1.292, 'rupee' => 0.019}
+  def method_missing(method_id, *args)
+    method_name = method_id.to_s.gsub( /s$/, '')
+    if @@currencies.has_key?(method_name)
+      self * @@currencies[method_name]
+    elsif method_name == "in"
+      arg_name = args[0].to_s.gsub( /s$/, '')
+      self * @@currencies[arg_name] if @@currencies.has_key?(arg_name)
+    else
+      super
+    end
+  end
+end
+
 # # 
 # a = Array.new
 # a[0] = nil
